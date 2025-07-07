@@ -6,6 +6,6 @@ describe('App', () => {
   it('renders the App component', () => {
     render(<App />)
 
-    expect(screen.getAllByRole('heading', { name: 'Hello World!', level: 1 }))
+    expect(screen.getAllByRole('heading', { name: 'User list', level: 1 }))
   })
 })

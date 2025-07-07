@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw'
-import { emilyJohnson, johnMaverick, meryJaneSmith } from './responses'
+import { emilyJohnson, johnMaverick, meryJaneSmith, users } from './responses'
 
 export const handlers = [
   http.get('https://example.com/users/', () => {
-    return HttpResponse.json({})
+    return HttpResponse.json(users)
   }),
   http.get('https://example.com/users/:slug', ({ params }) => {
     if (params.slug === 'john-maverick') {
