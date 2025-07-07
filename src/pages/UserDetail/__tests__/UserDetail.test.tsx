@@ -5,7 +5,6 @@ import { userEvent } from '@testing-library/user-event'
 
 it('renders the user`s detail page', async () => {
   window.history.pushState({}, '', '/john-maverick')
-
   render(<App />)
 
   expect(
@@ -23,6 +22,18 @@ it('renders the user`s detail page', async () => {
   expect(screen.getByRole('complementary')).toContainHTML('Tema light')
 })
 
+it('cannot render the user detail page since the user due to 404', async () => {
+  window.history.pushState({}, '', '/unknown-user-slug')
+  render(<App />)
+
+  expect(
+    await screen.findByRole('heading', {
+      name: 'Usuario no encontrado',
+      level: 3,
+    }),
+  )
+})
+
 it('toggles theme and navigates back to home', async () => {
   window.history.pushState({}, '', '/john-maverick')
   const user = userEvent.setup()
@@ -33,6 +44,8 @@ it('toggles theme and navigates back to home', async () => {
   await user.click(aside)
   await user.click(backButton)
 
-  expect(await screen.findByRole('heading', { name: 'User list', level: 1 }))
+  expect(
+    await screen.findByRole('heading', { name: 'User list', level: 1 }),
+  ).toBeVisible()
   expect(screen.getByRole('complementary')).toContainHTML('Tema dark')
 })
