@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { App } from './App'
+import { App } from 'App'
 
 async function enableMocking() {
   if (import.meta.env.VITE_MOCKED !== 'TRUE') {

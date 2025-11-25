@@ -10,7 +10,7 @@ const Home = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    getUsers()
+    void getUsers()
   }, [])
 
   const getUsers = async () => {

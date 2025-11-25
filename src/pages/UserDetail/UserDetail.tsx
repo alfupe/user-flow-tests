@@ -14,8 +14,8 @@ const UserDetail = () => {
 
   useEffect(() => {
     if (!slug) return
-    getUserBySlug(slug)
-  }, [])
+    void getUserBySlug(slug)
+  }, [slug])
 
   const getUserBySlug = async (slug: string) => {
     try {
