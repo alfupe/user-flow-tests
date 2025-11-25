@@ -1,13 +1,12 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
+  - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: daily
     open-pull-requests-limit: 10
-    reviewers:
-      - "alfupe"
-    assignees:
-      - "alfupe"
-    labels:
-      - "dependencies"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
