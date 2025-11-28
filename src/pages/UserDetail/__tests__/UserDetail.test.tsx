@@ -39,9 +39,11 @@ it('toggles theme and navigates back to home', async () => {
   const user = userEvent.setup()
   render(<App />)
 
-  const aside = await screen.findByRole('complementary')
+  const toggleThemeButton = await screen.findByRole('button', {
+    name: 'Tema light',
+  })
   const backButton = screen.getByRole('button', { name: 'Back' })
-  await user.click(aside)
+  await user.click(toggleThemeButton)
   await user.click(backButton)
 
   expect(
