@@ -32,16 +32,20 @@ const UserDetail = () => {
   if (!user) return null
 
   return (
-    <>
+    <section>
+      <header>
+        <nav>
+          <button onClick={() => navigate('/')}>Back</button>
+        </nav>
+        <button onClick={() => dispatch(toggleTheme())}>Tema {theme}</button>
+      </header>
       <article>
         <h1>
           {user.firstName} {user.lastName}
         </h1>
         <h2>slug: {user.slug}</h2>
       </article>
-      <aside onClick={() => dispatch(toggleTheme())}>Tema {theme}</aside>
-      <button onClick={() => navigate('/')}>Back</button>
-    </>
+    </section>
   )
 }
 

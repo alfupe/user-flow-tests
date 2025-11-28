@@ -20,23 +20,21 @@ const Home = () => {
   }
 
   return (
-    <>
-      <section>
-        <header>
-          <h1>User list</h1>
-        </header>
-        {users?.map((user) => (
-          <article key={user.id}>
-            <Link to={`${user.slug}`}>
-              <h2>
-                {user.firstName} {user.lastName}
-              </h2>
-            </Link>
-          </article>
-        ))}
-      </section>
-      <aside onClick={() => dispatch(setTheme('dark'))}>Tema {theme}</aside>
-    </>
+    <section>
+      <header>
+        <h1>User list</h1>
+        <button onClick={() => dispatch(setTheme('dark'))}>Tema {theme}</button>
+      </header>
+      {users?.map((user) => (
+        <article key={user.id}>
+          <Link to={`${user.slug}`}>
+            <h2>
+              {user.firstName} {user.lastName}
+            </h2>
+          </Link>
+        </article>
+      ))}
+    </section>
   )
 }
 
