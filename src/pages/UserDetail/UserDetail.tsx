@@ -12,8 +12,7 @@ const UserDetail = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!slug) return
-    void getUserBySlug(slug)
+    void getUserBySlug(slug as string)
   }, [slug])
 
   const getUserBySlug = async (slug: string) => {

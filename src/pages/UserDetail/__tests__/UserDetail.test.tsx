@@ -47,11 +47,15 @@ it('toggles theme and navigates back to home', async () => {
     name: 'Tema light',
   })
   const backLink = screen.getByRole('link', { name: 'Back' })
-  await user.click(toggleThemeButton)
-  await user.click(backLink)
 
+  await user.click(toggleThemeButton)
+  expect(toggleThemeButton).toContainHTML('Tema dark')
+
+  await user.click(toggleThemeButton)
+  expect(toggleThemeButton).toContainHTML('Tema light')
+
+  await user.click(backLink)
   expect(
     await screen.findByRole('heading', { name: 'User list', level: 1 }),
   ).toBeVisible()
-  expect(toggleThemeButton).toContainHTML('Tema dark')
 })

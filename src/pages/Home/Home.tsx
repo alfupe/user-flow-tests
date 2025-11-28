@@ -23,7 +23,13 @@ const Home = () => {
     <section>
       <header>
         <h1>User list</h1>
-        <button onClick={() => dispatch(setTheme('dark'))}>Tema {theme}</button>
+        <h2>Tema {theme}</h2>
+        <button onClick={() => dispatch(setTheme('dark'))}>
+          Cambiar a tema dark
+        </button>
+        <button onClick={() => dispatch(setTheme('light'))}>
+          Cambiar a tema light
+        </button>
       </header>
       {users?.map((user) => (
         <article key={user.id}>
