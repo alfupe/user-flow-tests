@@ -60,7 +60,6 @@ it('set light theme', async () => {
   const setLightThemeButton = screen.getByRole('button', {
     name: 'Cambiar a tema light',
   })
-  screen.debug()
   await user.click(setLightThemeButton)
 
   expect(
@@ -69,6 +68,7 @@ it('set light theme', async () => {
 })
 
 it('navigates to the user`s detail page', async () => {
+  window.history.pushState({}, '', '/')
   const user = userEvent.setup()
   render(<App />)
 
@@ -85,6 +85,52 @@ it('navigates to the user`s detail page', async () => {
   expect(
     screen.getByRole('heading', {
       name: 'slug: john-maverick',
+      level: 2,
+    }),
+  ).toBeInTheDocument()
+})
+
+it('navigates to the user`s detail page mjs', async () => {
+  window.history.pushState({}, '', '/')
+  const user = userEvent.setup()
+  render(<App />)
+
+  const [, mjs] = await screen.findAllByRole('article')
+
+  await user.click(within(mjs).getByRole('link', { name: 'Mery Jane Smith' }))
+
+  expect(
+    await screen.findByRole('heading', {
+      name: 'Mery Jane Smith',
+      level: 1,
+    }),
+  ).toBeInTheDocument()
+  expect(
+    screen.getByRole('heading', {
+      name: 'slug: mery-jane-smith',
+      level: 2,
+    }),
+  ).toBeInTheDocument()
+})
+
+it('navigates to the user`s detail page ej', async () => {
+  window.history.pushState({}, '', '/')
+  const user = userEvent.setup()
+  render(<App />)
+
+  const [, , ej] = await screen.findAllByRole('article')
+
+  await user.click(within(ej).getByRole('link', { name: 'Emily Johnson' }))
+
+  expect(
+    await screen.findByRole('heading', {
+      name: 'Emily Johnson',
+      level: 1,
+    }),
+  ).toBeInTheDocument()
+  expect(
+    screen.getByRole('heading', {
+      name: 'slug: emily-johnson',
       level: 2,
     }),
   ).toBeInTheDocument()
