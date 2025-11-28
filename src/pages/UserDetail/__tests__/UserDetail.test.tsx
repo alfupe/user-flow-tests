@@ -7,6 +7,10 @@ it('renders the user`s detail page', async () => {
   window.history.pushState({}, '', '/john-maverick')
   render(<App />)
 
+  const toggleThemeButton = await screen.findByRole('button', {
+    name: 'Tema light',
+  })
+
   expect(
     await screen.findByRole('heading', {
       name: 'John Maverick',
@@ -19,7 +23,7 @@ it('renders the user`s detail page', async () => {
       level: 2,
     }),
   ).toBeInTheDocument()
-  expect(screen.getByRole('complementary')).toContainHTML('Tema light')
+  expect(toggleThemeButton).toBeInTheDocument()
 })
 
 it('cannot render the user detail page since the user due to 404', async () => {
@@ -42,12 +46,12 @@ it('toggles theme and navigates back to home', async () => {
   const toggleThemeButton = await screen.findByRole('button', {
     name: 'Tema light',
   })
-  const backButton = screen.getByRole('button', { name: 'Back' })
+  const backLink = screen.getByRole('link', { name: 'Back' })
   await user.click(toggleThemeButton)
-  await user.click(backButton)
+  await user.click(backLink)
 
   expect(
     await screen.findByRole('heading', { name: 'User list', level: 1 }),
   ).toBeVisible()
-  expect(screen.getByRole('complementary')).toContainHTML('Tema dark')
+  expect(toggleThemeButton).toContainHTML('Tema dark')
 })

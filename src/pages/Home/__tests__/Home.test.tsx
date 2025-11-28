@@ -5,10 +5,12 @@ import { userEvent } from '@testing-library/user-event'
 it('renders the Home page', () => {
   render(<App />)
 
-  const aside = screen.getByRole('complementary')
+  const setThemeButton = screen.getByRole('button', {
+    name: 'Tema light',
+  })
 
   expect(screen.getByRole('heading', { name: 'User list', level: 1 }))
-  expect(aside).toContainHTML('Tema light')
+  expect(setThemeButton).toBeInTheDocument()
 })
 
 it('renders the user list', async () => {
@@ -35,10 +37,12 @@ it('set dark theme and navigates to the user`s detail page', async () => {
   render(<App />)
 
   const [john] = await screen.findAllByRole('article')
-  const aside = screen.getByRole('complementary')
+  const setThemeButton = screen.getByRole('button', {
+    name: 'Tema light',
+  })
 
   await user.click(within(john).getByRole('link', { name: 'John Maverick' }))
-  await user.click(aside)
+  await user.click(setThemeButton)
 
   expect(
     await screen.findByRole('heading', {
@@ -52,5 +56,5 @@ it('set dark theme and navigates to the user`s detail page', async () => {
       level: 2,
     }),
   ).toBeInTheDocument()
-  expect(aside).toContainHTML('Tema light')
+  expect(setThemeButton).toContainHTML('Tema light')
 })

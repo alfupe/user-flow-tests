@@ -2,14 +2,13 @@ import type { User } from 'features/user'
 import { useEffect, useState } from 'react'
 import { selectTheme, toggleTheme } from 'store/slices/theme'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const UserDetail = () => {
   const { slug } = useParams()
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState(false)
   const theme = useAppSelector(selectTheme)
-  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const UserDetail = () => {
     <section>
       <header>
         <nav>
-          <button onClick={() => navigate('/')}>Back</button>
+          <Link to="/">Back</Link>
         </nav>
         <button onClick={() => dispatch(toggleTheme())}>Tema {theme}</button>
       </header>
