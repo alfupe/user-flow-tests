@@ -36,7 +36,7 @@ it('renders the user card contents', async () => {
   ).toBeInTheDocument()
 })
 
-it('set dark theme', async () => {
+it('sets dark theme', async () => {
   const user = userEvent.setup()
   render(<App />)
 
@@ -51,7 +51,7 @@ it('set dark theme', async () => {
   ).toBeInTheDocument()
 })
 
-it('set light theme', async () => {
+it('sets light theme', async () => {
   const user = userEvent.setup()
   render(<App />)
 
@@ -68,7 +68,6 @@ it('set light theme', async () => {
 })
 
 it('navigates to the user`s detail page', async () => {
-  window.history.pushState({}, '', '/')
   const user = userEvent.setup()
   render(<App />)
 
@@ -91,7 +90,6 @@ it('navigates to the user`s detail page', async () => {
 })
 
 it('navigates to the user`s detail page mjs', async () => {
-  window.history.pushState({}, '', '/')
   const user = userEvent.setup()
   render(<App />)
 
@@ -113,25 +111,30 @@ it('navigates to the user`s detail page mjs', async () => {
   ).toBeInTheDocument()
 })
 
-it('navigates to the user`s detail page ej', async () => {
-  window.history.pushState({}, '', '/')
+it('sets dark theme, navigate to detail to check that the theme is persisted', async () => {
   const user = userEvent.setup()
   render(<App />)
 
-  const [, , ej] = await screen.findAllByRole('article')
+  const { 2: emilyJohnson } = await screen.findAllByRole('article')
 
-  await user.click(within(ej).getByRole('link', { name: 'Emily Johnson' }))
+  const setDarkThemeButton = screen.getByRole('button', {
+    name: 'Cambiar a tema dark',
+  })
+
+  await user.click(setDarkThemeButton)
+  await user.click(
+    within(emilyJohnson).getByRole('link', { name: 'Emily Johnson' }),
+  )
+
+  await screen.findByRole('heading', {
+    name: 'slug: emily-johnson',
+    level: 2,
+  })
+
+  const backLink = screen.getByRole('link', { name: 'Back' })
+  await user.click(backLink)
 
   expect(
-    await screen.findByRole('heading', {
-      name: 'Emily Johnson',
-      level: 1,
-    }),
-  ).toBeInTheDocument()
-  expect(
-    screen.getByRole('heading', {
-      name: 'slug: emily-johnson',
-      level: 2,
-    }),
+    await screen.findByRole('heading', { name: 'Tema dark' }),
   ).toBeInTheDocument()
 })
