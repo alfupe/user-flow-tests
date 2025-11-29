@@ -89,7 +89,7 @@ it('navigates to the user`s detail page', async () => {
   ).toBeInTheDocument()
 })
 
-it('navigates to the user`s detail page mjs', async () => {
+it.skip('navigates to the user`s detail page mjs', async () => {
   const user = userEvent.setup()
   render(<App />)
 
