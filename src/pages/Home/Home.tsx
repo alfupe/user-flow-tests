@@ -1,4 +1,4 @@
-import { selectTheme, setTheme } from 'store/slices/theme'
+import { selectTheme, toggleTheme } from 'store/slices/theme'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { useEffect, useState } from 'react'
 import type { User } from 'features/user'
@@ -23,13 +23,7 @@ const Home = () => {
     <section>
       <header>
         <h1>User list</h1>
-        <h2>Tema {theme}</h2>
-        <button onClick={() => dispatch(setTheme('dark'))}>
-          Cambiar a tema dark
-        </button>
-        <button onClick={() => dispatch(setTheme('light'))}>
-          Cambiar a tema light
-        </button>
+        <button onClick={() => dispatch(toggleTheme())}>Tema {theme}</button>
       </header>
       {users?.map((user) => (
         <article key={user.id}>

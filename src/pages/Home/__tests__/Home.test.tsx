@@ -1,20 +1,17 @@
 import { render, screen, within } from '@testing-library/react'
 import { App } from 'App'
 import { userEvent } from '@testing-library/user-event'
+import { expect } from 'vitest'
 
 it('renders the Home page', () => {
   render(<App />)
 
-  const setLightThemeButton = screen.getByRole('button', {
-    name: 'Cambiar a tema light',
-  })
-  const setDarkThemeButton = screen.getByRole('button', {
-    name: 'Cambiar a tema light',
-  })
-
   expect(screen.getByRole('heading', { name: 'User list', level: 1 }))
-  expect(setLightThemeButton).toBeInTheDocument()
-  expect(setDarkThemeButton).toBeInTheDocument()
+  expect(
+    screen.getByRole('button', {
+      name: 'Tema light',
+    }),
+  ).toBeInTheDocument()
 })
 
 it('renders the user list', async () => {
@@ -36,35 +33,16 @@ it('renders the user card contents', async () => {
   ).toBeInTheDocument()
 })
 
-it('sets dark theme', async () => {
+it('toggles theme', async () => {
   const user = userEvent.setup()
   render(<App />)
 
-  const setDarkThemeButton = screen.getByRole('button', {
-    name: 'Cambiar a tema dark',
+  const toggleThemeButton = await screen.findByRole('button', {
+    name: 'Tema light',
   })
+  await user.click(toggleThemeButton)
 
-  await user.click(setDarkThemeButton)
-
-  expect(
-    await screen.findByRole('heading', { name: 'Tema dark' }),
-  ).toBeInTheDocument()
-})
-
-it('sets light theme', async () => {
-  const user = userEvent.setup()
-  render(<App />)
-
-  await screen.findAllByRole('article')
-
-  const setLightThemeButton = screen.getByRole('button', {
-    name: 'Cambiar a tema light',
-  })
-  await user.click(setLightThemeButton)
-
-  expect(
-    await screen.findByRole('heading', { name: 'Tema light' }),
-  ).toBeInTheDocument()
+  expect(toggleThemeButton).toContainHTML('Tema dark')
 })
 
 it('navigates to the user`s detail page', async () => {
@@ -117,11 +95,11 @@ it('sets dark theme, navigate to detail to check that the theme is persisted', a
 
   const { 2: emilyJohnson } = await screen.findAllByRole('article')
 
-  const setDarkThemeButton = screen.getByRole('button', {
-    name: 'Cambiar a tema dark',
+  const toggleThemeButton = screen.getByRole('button', {
+    name: 'Tema light',
   })
 
-  await user.click(setDarkThemeButton)
+  await user.click(toggleThemeButton)
   await user.click(
     within(emilyJohnson).getByRole('link', { name: 'Emily Johnson' }),
   )
@@ -135,6 +113,6 @@ it('sets dark theme, navigate to detail to check that the theme is persisted', a
   await user.click(backLink)
 
   expect(
-    await screen.findByRole('heading', { name: 'Tema dark' }),
+    await screen.findByRole('button', { name: 'Tema dark' }),
   ).toBeInTheDocument()
 })
