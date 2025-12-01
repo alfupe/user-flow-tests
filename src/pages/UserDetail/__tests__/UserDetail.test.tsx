@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { App } from 'App'
-import { expect } from 'vitest'
 import { userEvent } from '@testing-library/user-event'
+import { goBackToHome, toggleTheme } from 'pages/__tests__/helpers'
 
 it('renders the user`s detail page', async () => {
   window.history.pushState({}, '', '/john-maverick')
@@ -46,15 +46,14 @@ it('toggles theme and navigates back to home', async () => {
   const toggleThemeButton = await screen.findByRole('button', {
     name: 'Tema light',
   })
-  const backLink = screen.getByRole('link', { name: 'Back' })
 
-  await user.click(toggleThemeButton)
+  await toggleTheme(user)
   expect(toggleThemeButton).toContainHTML('Tema dark')
 
-  await user.click(toggleThemeButton)
+  await toggleTheme(user, 'dark')
   expect(toggleThemeButton).toContainHTML('Tema light')
 
-  await user.click(backLink)
+  await goBackToHome(user)
   expect(
     await screen.findByRole('heading', { name: 'User list', level: 1 }),
   ).toBeVisible()

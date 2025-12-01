@@ -2,7 +2,7 @@ import { selectTheme, toggleTheme } from 'store/slices/theme'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { useEffect, useState } from 'react'
 import type { User } from 'features/user'
-import { Link } from 'react-router-dom'
+import { UserCard } from 'features/user/UiComponents'
 
 const Home = () => {
   const [users, setUsers] = useState<User[]>([])
@@ -26,13 +26,7 @@ const Home = () => {
         <button onClick={() => dispatch(toggleTheme())}>Tema {theme}</button>
       </header>
       {users?.map((user) => (
-        <article key={user.id}>
-          <Link to={`${user.slug}`}>
-            <h2>
-              {user.firstName} {user.lastName}
-            </h2>
-          </Link>
-        </article>
+        <UserCard user={user} key={user.id} />
       ))}
     </section>
   )

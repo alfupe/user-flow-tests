@@ -1,7 +1,12 @@
 import { render, screen, within } from '@testing-library/react'
 import { App } from 'App'
 import { userEvent } from '@testing-library/user-event'
-import { expect } from 'vitest'
+import {
+  goBackToHome,
+  navigateToEmilyJohnsonDetail,
+  navigateToJohnMaverickDetail,
+  toggleTheme,
+} from 'pages/__tests__/helpers'
 
 it('renders the Home page', () => {
   render(<App />)
@@ -37,21 +42,22 @@ it('toggles theme', async () => {
   const user = userEvent.setup()
   render(<App />)
 
-  const toggleThemeButton = await screen.findByRole('button', {
-    name: 'Tema light',
-  })
-  await user.click(toggleThemeButton)
+  await toggleTheme(user)
 
-  expect(toggleThemeButton).toContainHTML('Tema dark')
+  expect(
+    await screen.findByRole('button', {
+      name: 'Tema dark',
+    }),
+  ).toBeInTheDocument()
 })
 
 it('navigates to the user`s detail page', async () => {
   const user = userEvent.setup()
   render(<App />)
 
-  const [john] = await screen.findAllByRole('article')
+  await screen.findAllByRole('article')
 
-  await user.click(within(john).getByRole('link', { name: 'John Maverick' }))
+  await navigateToJohnMaverickDetail(user)
 
   expect(
     await screen.findByRole('heading', {
@@ -67,50 +73,21 @@ it('navigates to the user`s detail page', async () => {
   ).toBeInTheDocument()
 })
 
-it.skip('navigates to the user`s detail page mjs', async () => {
-  const user = userEvent.setup()
-  render(<App />)
-
-  const [, mjs] = await screen.findAllByRole('article')
-
-  await user.click(within(mjs).getByRole('link', { name: 'Mery Jane Smith' }))
-
-  expect(
-    await screen.findByRole('heading', {
-      name: 'Mery Jane Smith',
-      level: 1,
-    }),
-  ).toBeInTheDocument()
-  expect(
-    screen.getByRole('heading', {
-      name: 'slug: mery-jane-smith',
-      level: 2,
-    }),
-  ).toBeInTheDocument()
-})
-
 it('sets dark theme, navigate to detail to check that the theme is persisted', async () => {
   const user = userEvent.setup()
   render(<App />)
 
-  const { 2: emilyJohnson } = await screen.findAllByRole('article')
+  await screen.findAllByRole('article')
 
-  const toggleThemeButton = screen.getByRole('button', {
-    name: 'Tema light',
-  })
-
-  await user.click(toggleThemeButton)
-  await user.click(
-    within(emilyJohnson).getByRole('link', { name: 'Emily Johnson' }),
-  )
+  await toggleTheme(user)
+  await navigateToEmilyJohnsonDetail(user)
 
   await screen.findByRole('heading', {
     name: 'slug: emily-johnson',
     level: 2,
   })
 
-  const backLink = screen.getByRole('link', { name: 'Back' })
-  await user.click(backLink)
+  await goBackToHome(user)
 
   expect(
     await screen.findByRole('button', { name: 'Tema dark' }),
