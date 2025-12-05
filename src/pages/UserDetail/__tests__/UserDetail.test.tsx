@@ -26,7 +26,7 @@ it('renders the user`s detail page', async () => {
   expect(toggleThemeButton).toBeInTheDocument()
 })
 
-it('cannot render the user detail page since the user due to 404', async () => {
+it('cannot render the user detail page since due to a 404', async () => {
   window.history.pushState({}, '', '/unknown-user-slug')
   render(<App />)
 
